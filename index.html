@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>酸塩基 小テスト対策</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=STIX+Two+Text:wght@400;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+/* Layout: one study desk. Title with a pH strip, then three tabs (一覧表 / カード / クイズ).
+   Acid = litmus red, base = litmus blue. Strong = solid chip, weak = outlined chip. */
+:root{
+  --bg:#F1F4F7;
+  --surface:#FFFFFF;
+  --surface-2:#E8EDF2;
+  --ink:#15212C;
+  --muted:#586878;
+  --line:#D3DCE4;
+  --acid:#C2382A;
+  --acid-ink:#A12A1E;
+  --acid-soft:#FBE8E4;
+  --base:#2559B0;
+  --base-ink:#1D4A95;
+  --base-soft:#E3ECFA;
+  --on-solid:#FFFFFF;
+  --ok:#17693F;
+  --ok-soft:#DDF3E7;
+  --miss:#8F4A05;
+  --miss-soft:#FBEBD3;
+  --focus:#15212C;
+  --ph:linear-gradient(90deg,#C2382A 0%,#E4802F 18%,#EAC33F 36%,#6DB35B 52%,#2FA0A8 68%,#2559B0 84%,#5B3E9E 100%);
+  --f-body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-display:"Dela Gothic One","Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-formula:"STIX Two Text","Times New Roman","Hiragino Mincho ProN","Yu Mincho",serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F161D;--surface:#17212B;--surface-2:#1F2B37;--ink:#E7EEF4;--muted:#9BAABA;--line:#2C3A47;
+    --acid:#F07C6D;--acid-ink:#F59A8E;--acid-soft:#3A2321;
+    --base:#7EA9F2;--base-ink:#9DBDF6;--base-soft:#1C2B46;
+    --on-solid:#0F161D;
+    --ok:#5FCB92;--ok-soft:#173226;--miss:#E6A754;--miss-soft:#38290F;--focus:#E7EEF4;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F161D;--surface:#17212B;--surface-2:#1F2B37;--ink:#E7EEF4;--muted:#9BAABA;--line:#2C3A47;
+  --acid:#F07C6D;--acid-ink:#F59A8E;--acid-soft:#3A2321;
+  --base:#7EA9F2;--base-ink:#9DBDF6;--base-soft:#1C2B46;
+  --on-solid:#0F161D;
+  --ok:#5FCB92;--ok-soft:#173226;--miss:#E6A754;--miss-soft:#38290F;--focus:#E7EEF4;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font:400 16px/1.7 var(--f-body);
+  padding-block:28px 64px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+}
+.wrap{max-width:62rem;margin-inline:auto}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+
+/* header */
+.eyebrow{margin:0;font-size:.8rem;letter-spacing:.14em;color:var(--muted);font-weight:700}
+h1{font-family:var(--f-display);font-weight:400;font-size:clamp(1.8rem,6vw,2.8rem);line-height:1.3;margin:.2rem 0 .6rem;text-wrap:balance}
+.lead{margin:0;color:var(--muted);max-width:40rem}
+.ph{margin-top:1.2rem}
+.ph-bar{height:8px;border-radius:4px;background:var(--ph)}
+.ph-scale{display:flex;justify-content:space-between;gap:1rem;margin-top:.35rem;font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* tabs */
+.tabs{display:flex;gap:.25rem;margin:1.6rem 0 1.3rem;border-bottom:2px solid var(--line)}
+.tab{appearance:none;background:none;border:0;border-bottom:3px solid transparent;margin-bottom:-2px;padding:.7rem 1.1rem;font-weight:700;color:var(--muted)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+
+/* formulas */
+.f{font-family:var(--f-formula);font-size:1.18rem;line-height:1.4}
+.f sub,.f sup{font-size:.7em;line-height:0;position:relative;vertical-align:baseline}
+.f sup{top:-.55em}
+.f sub{top:.28em}
+
+/* rules */
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));gap:.75rem;margin-bottom:1.5rem}
+.rule{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:1rem 1.1rem;min-width:0}
+.rule h2{margin:0 0 .3rem;font-size:.8rem;letter-spacing:.14em;color:var(--muted)}
+.rule p{margin:0;font-size:.95rem;line-height:1.75}
+
+/* controls */
+.bar{display:flex;flex-wrap:wrap;gap:.75rem 1.5rem;align-items:center;margin-bottom:1rem}
+.group{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
+.group .gl{font-size:.85rem;color:var(--muted);margin-right:.2rem}
+.pb{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:.3rem .95rem;min-height:40px;font-size:.95rem}
+.pb:hover{border-color:var(--ink)}
+.pb[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.linkbtn{background:none;border:0;color:var(--muted);text-decoration:underline;padding:.4rem .3rem;font-size:.9rem}
+.note{margin:0 0 1rem;color:var(--muted);font-size:.9rem}
+
+/* table (shared by list, cards answer, quiz result) */
+.table{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.thead,.row{display:grid;grid-template-columns:minmax(10rem,1.3fr) minmax(5rem,.8fr) minmax(12rem,2.2fr) 4rem 6rem;gap:.5rem 1rem;align-items:center;padding:.6rem 1rem}
+.thead{font-size:.78rem;color:var(--muted);letter-spacing:.1em;font-weight:700;border-bottom:1px solid var(--line)}
+.row{border-top:1px solid var(--line)}
+.grp{padding:.45rem 1rem;font-size:.8rem;font-weight:700;letter-spacing:.12em;background:var(--surface-2);border-top:1px solid var(--line)}
+.grp span{font-weight:400;letter-spacing:0;margin-left:.5rem;color:var(--muted)}
+.grp.acid{color:var(--acid-ink)}
+.grp.base{color:var(--base-ink)}
+.cell{min-width:0}
+.cell .lbl{display:none}
+.c-name{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;font-weight:700}
+.cell.miss{background:var(--miss-soft);border-radius:6px;padding:.1rem .45rem}
+.n{font-weight:700;font-variant-numeric:tabular-nums}
+.pill{display:inline-block;font-size:.72rem;font-weight:700;padding:0 .55rem;border-radius:999px;line-height:1.7}
+.pill.acid{background:var(--acid-soft);color:var(--acid-ink)}
+.pill.base{background:var(--base-soft);color:var(--base-ink)}
+.chip{display:inline-block;font-weight:700;font-size:.85rem;padding:.1rem .6rem;border-radius:6px;border:1.5px solid;white-space:nowrap}
+.chip.acid{border-color:var(--acid);color:var(--acid-ink);background:var(--acid-soft)}
+.chip.base{border-color:var(--base);color:var(--base-ink);background:var(--base-soft)}
+.chip.acid.strong{background:var(--acid);color:var(--on-solid)}
+.chip.base.strong{background:var(--base);color:var(--on-solid)}
+.mask{width:100%;min-height:36px;border:1px dashed var(--muted);background:var(--surface-2);color:var(--muted);border-radius:6px;font-weight:700}
+.mask:hover{border-color:var(--ink);color:var(--ink)}
+
+@media (max-width:46rem){
+  .thead{display:none}
+  .row{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"name strength" "formula valence" "ion ion";gap:.35rem 1rem;align-items:start;padding:.75rem 1rem}
+  .c-name{grid-area:name;align-self:center}
+  .c-formula{grid-area:formula}
+  .c-ion{grid-area:ion}
+  .c-valence{grid-area:valence;justify-self:end;text-align:right}
+  .c-strength{grid-area:strength;justify-self:end;text-align:right}
+  .cell .lbl{display:block;font-size:.68rem;line-height:1.3;color:var(--muted);letter-spacing:.08em}
+}
+
+/* buttons */
+.btn{border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);border-radius:8px;padding:.7rem 1.3rem;font-weight:700;min-height:48px}
+.btn.primary{background:var(--ink);color:var(--bg)}
+.btn.block{width:100%}
+
+/* cards */
+.meter{height:6px;background:var(--surface-2);border-radius:3px;overflow:hidden;max-width:40rem;margin:0 auto 1rem}
+.meter i{display:block;height:100%;background:var(--ink)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:1.4rem clamp(1rem,4vw,2rem) 1.6rem;max-width:40rem;margin-inline:auto}
+.count{margin:0;color:var(--muted);font-size:.85rem;font-variant-numeric:tabular-nums}
+.card-name{font-family:var(--f-display);font-weight:400;font-size:clamp(2rem,9vw,3.1rem);line-height:1.35;margin:.3rem 0 .6rem;text-wrap:balance}
+.hint{color:var(--muted);font-size:.92rem;margin:0 0 1rem}
+.ans{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.7rem 1.2rem;align-items:baseline;margin:1rem 0 1.4rem;padding-top:1rem;border-top:1px solid var(--line)}
+.ans dt{color:var(--muted);font-size:.85rem;font-weight:700}
+.ans dd{margin:0;min-width:0}
+.grade{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.empty{max-width:40rem;margin:0 auto;color:var(--muted);padding:1.5rem;border:1px dashed var(--line);border-radius:10px}
+.done-t{font-family:var(--f-display);font-weight:400;font-size:1.6rem;margin:.2rem 0 .5rem}
+.stack{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.2rem}
+
+/* quiz */
+.setup{max-width:40rem;display:grid;gap:1.2rem}
+.field{display:grid;gap:.4rem}
+.flabel{font-weight:700;font-size:.9rem}
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:1rem;max-width:40rem;margin:0 auto .5rem;color:var(--muted);font-size:.9rem;font-variant-numeric:tabular-nums}
+.ask{margin:0;font-weight:700}
+.steps{display:flex;flex-wrap:wrap;gap:.4rem;margin:.7rem 0 .2rem}
+.st{font-size:.8rem;padding:.05rem .65rem;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.st.now{border-color:var(--ink);color:var(--ink);font-weight:700}
+.st.ok{border-color:var(--ok);color:var(--ok);font-weight:700}
+.st.ng{border-color:var(--miss);color:var(--miss);font-weight:700}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr));gap:.6rem;margin-top:1rem}
+.opts.wide{grid-template-columns:minmax(0,1fr)}
+.opts.sm{grid-template-columns:repeat(auto-fit,minmax(min(100%,8rem),1fr))}
+.opt{display:flex;justify-content:space-between;align-items:center;gap:.6rem;text-align:left;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:.7rem 1rem;min-height:52px;font-family:var(--f-formula);font-size:1.25rem;min-width:0}
+.opt.txt{font-family:var(--f-body);font-weight:700;font-size:1.05rem}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt:disabled{cursor:default;color:var(--ink)}
+.opt.ok{border-color:var(--ok);background:var(--ok-soft)}
+.opt.ng{border-color:var(--miss);background:var(--miss-soft)}
+.opt .mk{font-family:var(--f-body);font-weight:700;font-size:1rem;flex:none}
+.opt.ok .mk{color:var(--ok)}
+.opt.ng .mk{color:var(--miss)}
+.fb{margin-top:1rem;padding:.8rem 1rem;border-radius:10px;font-size:.95rem}
+.fb.ok{background:var(--ok-soft)}
+.fb.ng{background:var(--miss-soft)}
+.fb p{margin:0}
+.fb p+p{margin-top:.35rem}
+.fb .lead-ok{color:var(--ok);font-weight:700}
+.fb .lead-ng{color:var(--miss);font-weight:700}
+.fb .tip{color:var(--muted);font-size:.9rem}
+.score{font-family:var(--f-display);font-size:clamp(2.2rem,8vw,3.4rem);line-height:1.2;margin:.2rem 0 .4rem}
+.score span{font-family:var(--f-body);font-size:1rem;margin-left:.5rem;color:var(--muted)}
+.result{display:grid;gap:.8rem}
+.result p{margin:0}
+.foot{margin:2rem 0 0;color:var(--muted);font-size:.82rem}
+
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+[hidden]{display:none!important}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">高校化学 ・ 酸と塩基</p>
+    <h1>酸・塩基 小テスト対策</h1>
+    <p class="lead">名称を見て、化学式・電離式・価数・強弱を答えられるようにする。21物質。</p>
+    <div class="ph" aria-hidden="true">
+      <div class="ph-bar"></div>
+      <div class="ph-scale"><span>pH 0 酸性</span><span>7 中性</span><span>14 塩基性</span></div>
+    </div>
+  </header>
+
+  <div class="tabs" role="tablist" aria-label="学習モード">
+    <button class="tab" role="tab" id="t-list" aria-controls="p-list" data-tab="list">一覧表</button>
+    <button class="tab" role="tab" id="t-cards" aria-controls="p-cards" data-tab="cards">カード</button>
+    <button class="tab" role="tab" id="t-quiz" aria-controls="p-quiz" data-tab="quiz">クイズ</button>
+  </div>
+
+  <section id="p-list" role="tabpanel" aria-labelledby="t-list">
+    <div class="rules">
+      <div class="rule">
+        <h2>価数</h2>
+        <p>酸は電離式の <span class="f" data-fm="H^+"></span> の数、塩基は <span class="f" data-fm="OH^-"></span> の数。係数を見れば決まる。アンモニアは <span class="f" data-fm="NH3 + H2O ⇄ NH4^+ + OH^-"></span> で1価。</p>
+      </div>
+      <div class="rule">
+        <h2>強弱</h2>
+        <p>この表の強酸は <span class="f" data-fm="HCl・HBr・HI・HNO3・H2SO4"></span> の5つ。強塩基は <span class="f" data-fm="NaOH・KOH・Ba(OH)2・Ca(OH)2"></span> の4つ。残りはすべて弱い。HF は弱酸。</p>
+      </div>
+      <div class="rule">
+        <h2>矢印</h2>
+        <p>強い酸・塩基はほぼ全部が電離するので <span class="f">→</span>。弱いものは一部だけ電離するので <span class="f">⇄</span>。矢印を見れば強弱が分かる。</p>
+      </div>
+    </div>
+
+    <div class="bar">
+      <div class="group" role="group" aria-label="表示する範囲">
+        <button class="pb" data-seg="list.scope" data-val="all" aria-pressed="true">すべて</button>
+        <button class="pb" data-seg="list.scope" data-val="acid" aria-pressed="false">酸</button>
+        <button class="pb" data-seg="list.scope" data-val="base" aria-pressed="false">塩基</button>
+      </div>
+      <div class="group" role="group" aria-label="隠す欄">
+        <span class="gl">隠す</span>
+        <button class="pb" data-hide="formula" aria-pressed="false">化学式</button>
+        <button class="pb" data-hide="ion" aria-pressed="false">電離式</button>
+        <button class="pb" data-hide="valence" aria-pressed="false">価数</button>
+        <button class="pb" data-hide="strength" aria-pressed="false">強弱</button>
+        <button class="linkbtn" data-act="showall">すべて見る</button>
+      </div>
+    </div>
+    <p class="note">欄を隠して、答えを思い出してから「？」をタップすると確認できる。</p>
+    <div class="table" id="list-table"></div>
+  </section>
+
+  <section id="p-cards" role="tabpanel" aria-labelledby="t-cards" hidden>
+    <div class="bar">
+      <div class="group" role="group" aria-label="出題範囲">
+        <button class="pb" data-seg="cards.scope" data-val="all" aria-pressed="true">すべて</button>
+        <button class="pb" data-seg="cards.scope" data-val="acid" aria-pressed="false">酸</button>
+        <button class="pb" data-seg="cards.scope" data-val="base" aria-pressed="false">塩基</button>
+        <button class="pb" data-seg="cards.scope" data-val="weak" aria-pressed="false">苦手 (<span data-weakn>0</span>)</button>
+      </div>
+    </div>
+    <div id="cards-area"></div>
+  </section>
+
+  <section id="p-quiz" role="tabpanel" aria-labelledby="t-quiz" hidden>
+    <div id="quiz-setup" class="setup">
+      <div class="field">
+        <span class="flabel">出題範囲</span>
+        <div class="group" role="group" aria-label="出題範囲">
+          <button class="pb" data-seg="quiz.scope" data-val="all" aria-pressed="true">すべて</button>
+          <button class="pb" data-seg="quiz.scope" data-val="acid" aria-pressed="false">酸</button>
+          <button class="pb" data-seg="quiz.scope" data-val="base" aria-pressed="false">塩基</button>
+          <button class="pb" data-seg="quiz.scope" data-val="weak" aria-pressed="false">苦手 (<span data-weakn>0</span>)</button>
+        </div>
+      </div>
+      <div class="field">
+        <span class="flabel">出題内容</span>
+        <div class="group" role="group" aria-label="出題内容">
+          <button class="pb" data-seg="quiz.mode" data-val="full" aria-pressed="true">まるごと(4問セット)</button>
+          <button class="pb" data-seg="quiz.mode" data-val="formula" aria-pressed="false">化学式</button>
+          <button class="pb" data-seg="quiz.mode" data-val="ion" aria-pressed="false">電離式</button>
+          <button class="pb" data-seg="quiz.mode" data-val="valence" aria-pressed="false">価数</button>
+          <button class="pb" data-seg="quiz.mode" data-val="strength" aria-pressed="false">強弱</button>
+        </div>
+      </div>
+      <div class="field">
+        <span class="flabel">物質の数</span>
+        <div class="group" role="group" aria-label="物質の数">
+          <button class="pb" data-seg="quiz.count" data-val="5" aria-pressed="false">5</button>
+          <button class="pb" data-seg="quiz.count" data-val="10" aria-pressed="true">10</button>
+          <button class="pb" data-seg="quiz.count" data-val="0" aria-pressed="false">範囲の全部</button>
+        </div>
+      </div>
+      <p class="note" id="quiz-note">「まるごと」は、1つの名称について 化学式 → 電離式 → 価数 → 強弱 の順に4問出る。小テストの1行と同じ流れ。</p>
+      <div><button class="btn primary" data-act="quiz-start">はじめる</button></div>
+    </div>
+    <div id="quiz-play" hidden></div>
+  </section>
+
+  <p class="foot">授業プリント「酸・塩基 小テスト」の21物質。苦手の記録はこのブラウザに保存される(データを消去した場合やプライベートモードでは残らない)。</p>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+/*PURE-START*/
+var DATA=[
+  {id:'hf',kind:'acid',name:'フッ化水素',formula:'HF',ion:'HF ⇄ H^+ + F^-',valence:1,strong:false},
+  {id:'hcl',kind:'acid',name:'塩化水素(塩酸)',formula:'HCl',ion:'HCl → H^+ + Cl^-',valence:1,strong:true},
+  {id:'hbr',kind:'acid',name:'臭化水素',formula:'HBr',ion:'HBr → H^+ + Br^-',valence:1,strong:true},
+  {id:'hi',kind:'acid',name:'ヨウ化水素',formula:'HI',ion:'HI → H^+ + I^-',valence:1,strong:true},
+  {id:'hno3',kind:'acid',name:'硝酸',formula:'HNO3',ion:'HNO3 → H^+ + NO3^-',valence:1,strong:true},
+  {id:'ch3cooh',kind:'acid',name:'酢酸',formula:'CH3COOH',ion:'CH3COOH ⇄ H^+ + CH3COO^-',valence:1,strong:false},
+  {id:'h2so4',kind:'acid',name:'硫酸',formula:'H2SO4',ion:'H2SO4 → 2H^+ + SO4^2-',valence:2,strong:true},
+  {id:'h2co3',kind:'acid',name:'炭酸',formula:'H2CO3',ion:'H2CO3 ⇄ 2H^+ + CO3^2-',valence:2,strong:false},
+  {id:'h2s',kind:'acid',name:'硫化水素',formula:'H2S',ion:'H2S ⇄ 2H^+ + S^2-',valence:2,strong:false},
+  {id:'oxalic',kind:'acid',name:'シュウ酸',formula:'(COOH)2',ion:'(COOH)2 ⇄ 2H^+ + (COO)2^2-',valence:2,strong:false},
+  {id:'h3po4',kind:'acid',name:'リン酸',formula:'H3PO4',ion:'H3PO4 ⇄ 3H^+ + PO4^3-',valence:3,strong:false},
+  {id:'naoh',kind:'base',name:'水酸化ナトリウム',formula:'NaOH',ion:'NaOH → Na^+ + OH^-',valence:1,strong:true},
+  {id:'koh',kind:'base',name:'水酸化カリウム',formula:'KOH',ion:'KOH → K^+ + OH^-',valence:1,strong:true},
+  {id:'nh3',kind:'base',name:'アンモニア',formula:'NH3',ion:'NH3 + H2O ⇄ NH4^+ + OH^-',valence:1,strong:false},
+  {id:'baoh2',kind:'base',name:'水酸化バリウム',formula:'Ba(OH)2',ion:'Ba(OH)2 → Ba^2+ + 2OH^-',valence:2,strong:true},
+  {id:'caoh2',kind:'base',name:'水酸化カルシウム',formula:'Ca(OH)2',ion:'Ca(OH)2 → Ca^2+ + 2OH^-',valence:2,strong:true},
+  {id:'cuoh2',kind:'base',name:'水酸化銅(Ⅱ)',formula:'Cu(OH)2',ion:'Cu(OH)2 ⇄ Cu^2+ + 2OH^-',valence:2,strong:false},
+  {id:'mgoh2',kind:'base',name:'水酸化マグネシウム',formula:'Mg(OH)2',ion:'Mg(OH)2 ⇄ Mg^2+ + 2OH^-',valence:2,strong:false},
+  {id:'znoh2',kind:'base',name:'水酸化亜鉛',formula:'Zn(OH)2',ion:'Zn(OH)2 ⇄ Zn^2+ + 2OH^-',valence:2,strong:false},
+  {id:'aloh3',kind:'base',name:'水酸化アルミニウム',formula:'Al(OH)3',ion:'Al(OH)3 ⇄ Al^3+ + 3OH^-',valence:3,strong:false},
+  {id:'feoh3',kind:'base',name:'水酸化鉄(Ⅲ)',formula:'Fe(OH)3',ion:'Fe(OH)3 ⇄ Fe^3+ + 3OH^-',valence:3,strong:false}
+];
+var LABEL={formula:'化学式',ion:'電離式',valence:'価数',strength:'強弱'};
+
+function fm(s){
+  return s.replace(/\^(\d*[+-])/g,function(m,c){return '<sup>'+c.replace('-','−')+'</sup>';})
+          .replace(/([A-Za-z)])(\d+)/g,'$1<sub>$2</sub>');
+}
+function shuffle(a){
+  a=a.slice();
+  for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}
+  return a;
+}
+function strengthLabel(d){return (d.strong?'強':'弱')+(d.kind==='acid'?'酸':'塩基');}
+
+/* three wrong versions of the correct ionization equation:
+   arrow flipped, wrong coefficient on H+/OH-, wrong ion charge */
+function ionVariants(d){
+  var s=d.ion, v=d.valence, acid=d.kind==='acid';
+  var flip=s.indexOf('→')>=0?s.replace('→','⇄'):s.replace('⇄','→');
+  var reC=acid?/(\d*)H\^\+/:/(\d*)OH\^-/;
+  var wc=v>1?v-1:2;
+  var coef=s.replace(reC,function(){return (wc>1?wc:'')+(acid?'H^+':'OH^-');});
+  var pat=acid?/\^(\d*)-/g:/\^(\d*)\+/g;
+  var ms=[],m;
+  while((m=pat.exec(s))!==null){ms.push(m);}
+  var mm=acid?ms[ms.length-1]:ms[0];
+  var nc=v>1?v-1:2;
+  var chg=s.slice(0,mm.index)+'^'+(nc>1?nc:'')+(acid?'-':'+')+s.slice(mm.index+mm[0].length);
+  return [flip,coef,chg];
+}
+function makeQ(d,key){
+  var opts,correct;
+  if(key==='valence'){
+    opts=[1,2,3].map(function(n){return {v:String(n),html:n+'価'};});
+    correct=String(d.valence);
+  }else if(key==='strength'){
+    opts=['強酸','弱酸','強塩基','弱塩基'].map(function(t){return {v:t,html:t};});
+    correct=strengthLabel(d);
+  }else if(key==='formula'){
+    var others=shuffle(DATA.filter(function(x){return x.kind===d.kind&&x.id!==d.id&&x.formula!==d.formula;})).slice(0,3);
+    opts=[d].concat(others).map(function(x){return {v:x.formula,html:'<span class="f">'+fm(x.formula)+'</span>'};});
+    correct=d.formula;
+  }else{
+    opts=[d.ion].concat(ionVariants(d)).map(function(t){return {v:t,html:'<span class="f">'+fm(t)+'</span>'};});
+    correct=d.ion;
+  }
+  var cr=opts.filter(function(o){return o.v===correct;})[0];
+  return {key:key,correct:correct,correctHTML:cr.html,opts:shuffle(opts)};
+}
+/*PURE-END*/
+
+var $=function(s,r){return (r||document).querySelector(s);};
+var byId={};DATA.forEach(function(d){byId[d.id]=d;});
+var VIEWS=['list','cards','quiz'];
+
+/* weak-item memory (per browser) */
+var KEY='acidbase-weak-v1', weak={};
+try{weak=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){weak={};}
+function saveWeak(){try{localStorage.setItem(KEY,JSON.stringify(weak));}catch(e){}}
+function mark(id,ok){
+  var n=weak[id]||0;
+  if(ok){ if(n>1){weak[id]=n-1;}else{delete weak[id];} }
+  else{ weak[id]=Math.min(n+1,5); }
+  saveWeak();
+}
+function pool(scope){
+  return DATA.filter(function(d){
+    return scope==='all'||(scope==='weak'&&weak[d.id]>0)||d.kind===scope;
+  });
+}
+
+/* shared renderers */
+function chip(d){return '<span class="chip '+d.kind+(d.strong?' strong':' weak')+'">'+strengthLabel(d)+'</span>';}
+function fieldHTML(d,key){
+  if(key==='formula') return '<span class="f">'+fm(d.formula)+'</span>';
+  if(key==='ion') return '<span class="f">'+fm(d.ion)+'</span>';
+  if(key==='valence') return '<span class="n">'+d.valence+'価</span>';
+  return chip(d);
+}
+function rowHTML(d,o){
+  o=o||{};
+  function cell(key){
+    var id=d.id+':'+key;
+    var masked=o.mask&&o.mask(d,key);
+    var inner=masked
+      ?'<button type="button" class="mask" data-rev="'+id+'" aria-label="'+LABEL[key]+'を表示">？</button>'
+      :fieldHTML(d,key);
+    var cls=o.miss&&o.miss.has(key)?' miss':'';
+    return '<div class="cell c-'+key+cls+'" data-cell="'+id+'" tabindex="-1"><span class="lbl">'+LABEL[key]+'</span>'+inner+'</div>';
+  }
+  return '<div class="row"><div class="cell c-name"><span class="pill '+d.kind+'">'+(d.kind==='acid'?'酸':'塩基')+'</span><span>'+d.name+'</span></div>'
+    +cell('formula')+cell('ion')+cell('valence')+cell('strength')+'</div>';
+}
+var THEAD='<div class="thead" aria-hidden="true"><span>名称</span><span>化学式</span><span>電離式</span><span>価数</span><span>強弱</span></div>';
+function focusId(id){requestAnimationFrame(function(){var e=document.getElementById(id);if(e)e.focus();});}
+
+/* state */
+var L={scope:'all',hide:new Set(),rev:new Set()};
+var C={scope:'all',deck:[],i:0,shown:false,again:[],known:0,done:false};
+var Q={scope:'all',mode:'full',count:10,phase:'setup',items:[],i:0,step:0,res:[],cur:null,picked:null};
+var S={list:L,cards:C,quiz:Q};
+
+function syncSeg(){
+  document.querySelectorAll('[data-seg]').forEach(function(b){
+    var p=b.dataset.seg.split('.'), cur=S[p[0]][p[1]];
+    var val=p[1]==='count'?Number(b.dataset.val):b.dataset.val;
+    b.setAttribute('aria-pressed',String(cur===val));
+  });
+  document.querySelectorAll('[data-hide]').forEach(function(b){
+    b.setAttribute('aria-pressed',String(L.hide.has(b.dataset.hide)));
+  });
+  var n=Object.keys(weak).length;
+  document.querySelectorAll('[data-weakn]').forEach(function(s){s.textContent=n;});
+}
+
+/* list */
+function renderList(){
+  var kinds=L.scope==='all'?['acid','base']:[L.scope];
+  var mask=function(d,k){return L.hide.has(k)&&!L.rev.has(d.id+':'+k);};
+  var h=THEAD;
+  kinds.forEach(function(k){
+    var items=DATA.filter(function(d){return d.kind===k;});
+    h+='<div class="grp '+k+'">'+(k==='acid'?'酸':'塩基')+'<span>'+items.length+'物質</span></div>';
+    h+=items.map(function(d){return rowHTML(d,{mask:mask});}).join('');
+  });
+  $('#list-table').innerHTML=h;
+}
+
+/* cards */
+function buildDeck(ids){
+  C.deck=ids?ids.map(function(id){return byId[id];}):shuffle(pool(C.scope));
+  C.i=0;C.shown=false;C.again=[];C.known=0;C.done=false;
+  renderCards();
+}
+function renderCards(){
+  var el=$('#cards-area');
+  if(!C.deck.length){
+    el.innerHTML='<p class="empty">この範囲にはまだカードがありません。カードで「まだ」を押した物質や、クイズでまちがえた物質が「苦手」に集まります。</p>';
+    return;
+  }
+  if(C.done){
+    el.innerHTML='<div class="card"><h3 class="done-t">ひととおり終わり</h3><p>覚えた '+C.known+' ・ まだ '+C.again.length+'</p><div class="stack">'
+      +(C.again.length?'<button class="btn primary" id="c-main" data-act="cards-retry">まだのカードだけもう一度</button>':'')
+      +'<button class="btn" data-act="cards-restart">最初からシャッフル</button></div></div>';
+    return;
+  }
+  var d=C.deck[C.i], n=C.deck.length;
+  var h='<div class="meter" aria-hidden="true"><i style="width:'+(C.i/n*100)+'%"></i></div>'
+    +'<article class="card"><p class="count">'+(C.i+1)+' / '+n+'</p><h3 class="card-name">'+d.name+'</h3>';
+  if(!C.shown){
+    h+='<p class="hint">化学式・電離式・価数・強弱を、頭の中か紙に書いてから答えを見よう。</p>'
+      +'<button class="btn primary block" id="c-main" data-act="reveal">答えを見る</button>';
+  }else{
+    h+='<dl class="ans">'
+      +['formula','ion','valence','strength'].map(function(k){return '<dt>'+LABEL[k]+'</dt><dd>'+fieldHTML(d,k)+'</dd>';}).join('')
+      +'</dl><div class="grade"><button class="btn" id="c-main" data-act="again">まだ</button><button class="btn primary" data-act="known">覚えた</button></div>';
+  }
+  h+='</article>';
+  el.innerHTML=h;
+}
+function cardNext(){
+  C.i++;C.shown=false;
+  if(C.i>=C.deck.length)C.done=true;
+  renderCards();syncSeg();focusId('c-main');
+}
+
+/* quiz */
+var ASK={formula:'化学式は?',ion:'電離式は?',valence:'価数は?',strength:'強酸・弱酸・強塩基・弱塩基のどれ?'};
+function stepsOf(){return Q.mode==='full'?['formula','ion','valence','strength']:[Q.mode];}
+function newQ(){Q.cur=makeQ(Q.items[Q.i],stepsOf()[Q.step]);Q.picked=null;}
+function startQuiz(items){
+  Q.items=items;Q.i=0;Q.step=0;Q.phase='ask';
+  Q.res=items.map(function(d){return {d:d,ok:{}};});
+  newQ();renderQuiz();
+}
+function tip(d,key){
+  if(key==='formula') return '電離式は '+fm(d.ion);
+  if(key==='ion') return '矢印は強弱で決まる(強い → 、弱い ⇄)。H<sup>+</sup> や OH<sup>−</sup> の係数は価数と同じ。';
+  if(key==='valence') return '電離式で出る '+(d.kind==='acid'?'H<sup>+</sup>':'OH<sup>−</sup>')+' の数が価数。';
+  var base=d.name+'は'+(d.kind==='acid'?'酸':'塩基')+'。';
+  if(d.strong&&d.kind==='acid') return base+'この表の強酸は '+fm('HCl・HBr・HI・HNO3・H2SO4')+' の5つ。';
+  if(d.strong) return base+'この表の強塩基は '+fm('NaOH・KOH・Ba(OH)2・Ca(OH)2')+' の4つ。';
+  return base+'強酸5つと強塩基4つ以外はすべて弱い。';
+}
+function renderQuiz(){
+  var setup=$('#quiz-setup'), play=$('#quiz-play');
+  if(Q.phase==='setup'){setup.hidden=false;play.hidden=true;syncSeg();return;}
+  setup.hidden=true;play.hidden=false;
+  if(Q.phase==='done'){play.innerHTML=doneHTML();return;}
+  var d=Q.items[Q.i], steps=stepsOf(), key=steps[Q.step], q=Q.cur, answered=Q.picked!==null;
+  var n=Q.items.length;
+  var prog=(Q.i+(Q.step+(answered?1:0))/steps.length)/n*100;
+  var h='<div class="qhead"><span>物質 '+(Q.i+1)+' / '+n+'</span><button class="linkbtn" data-act="q-quit">やめる</button></div>'
+    +'<div class="meter" aria-hidden="true"><i style="width:'+prog+'%"></i></div>'
+    +'<article class="card"><h3 class="card-name">'+d.name+'</h3><p class="ask">'+ASK[key]+'</p>';
+  if(Q.mode==='full'){
+    h+='<div class="steps" aria-label="進み具合">'+steps.map(function(k,idx){
+      var st=Q.res[Q.i].ok[k], cls='st', mk='';
+      if(st===true){cls+=' ok';mk='○ ';}
+      else if(st===false){cls+=' ng';mk='× ';}
+      else if(idx===Q.step){cls+=' now';}
+      return '<span class="'+cls+'">'+mk+LABEL[k]+'</span>';
+    }).join('')+'</div>';
+  }
+  var cls='opts'+(key==='ion'?' wide':(key==='valence'||key==='strength'?' sm':''));
+  var txt=(key==='valence'||key==='strength')?' txt':'';
+  h+='<div class="'+cls+'">'+q.opts.map(function(o,idx){
+    var st='',mk='';
+    if(answered){
+      if(o.v===q.correct){st=' ok';mk='<span class="mk">○</span>';}
+      else if(idx===Q.picked){st=' ng';mk='<span class="mk">×</span>';}
+    }
+    return '<button class="opt'+txt+st+'" data-pick="'+idx+'"'+(answered?' disabled':'')+'><span>'+o.html+'</span>'+mk+'</button>';
+  }).join('')+'</div>';
+  if(answered){
+    var okNow=q.opts[Q.picked].v===q.correct;
+    var last=(Q.step===steps.length-1)&&(Q.i===n-1);
+    h+='<div class="fb '+(okNow?'ok':'ng')+'" id="q-fb" role="status"><p>'
+      +(okNow?'<span class="lead-ok">○ 正解</span>':'<span class="lead-ng">× 不正解</span> 正解は '+q.correctHTML)
+      +'</p><p class="tip">'+tip(d,key)+'</p></div>'
+      +'<div class="stack"><button class="btn primary" id="q-next" data-act="q-next" aria-describedby="q-fb">'+(last?'結果を見る':'つぎへ')+'</button></div>';
+  }
+  h+='</article>';
+  play.innerHTML=h;
+}
+function doneHTML(){
+  var tot=0,okc=0;
+  Q.res.forEach(function(r){Object.keys(r.ok).forEach(function(k){tot++;if(r.ok[k])okc++;});});
+  var missed=Q.res.filter(function(r){return Object.keys(r.ok).some(function(k){return !r.ok[k];});});
+  var h='<div class="result"><p class="eyebrow">結果</p><p class="score">'+okc+' / '+tot+'<span>問正解</span></p>';
+  if(missed.length){
+    h+='<p>まちがえた物質は '+missed.length+' つ。色のついた欄を確認して、もう一度やってみよう。</p>'
+      +'<div class="table">'+THEAD+missed.map(function(r){
+        var set=new Set(Object.keys(r.ok).filter(function(k){return !r.ok[k];}));
+        return rowHTML(r.d,{miss:set});
+      }).join('')+'</div>';
+  }else{
+    h+='<p>全問正解。別の範囲や「苦手」でも試してみよう。</p>';
+  }
+  h+='<div class="stack">'
+    +(missed.length?'<button class="btn primary" id="q-focus" data-act="quiz-retry-missed">まちがえた物質だけやり直す</button>':'')
+    +'<button class="btn" data-act="quiz-again">同じ設定でもう一度</button>'
+    +'<button class="btn" data-act="quiz-setup">設定にもどる</button></div></div>';
+  return h;
+}
+function quizNext(){
+  var steps=stepsOf();
+  Q.step++;
+  if(Q.step>=steps.length){
+    var r=Q.res[Q.i];
+    mark(r.d.id,Object.keys(r.ok).every(function(k){return r.ok[k];}));
+    Q.i++;Q.step=0;
+    if(Q.i>=Q.items.length){Q.phase='done';syncSeg();renderQuiz();focusId('q-focus');return;}
+  }
+  newQ();renderQuiz();window.scrollTo({top:0});
+}
+function beginFromSetup(){
+  var p=shuffle(pool(Q.scope));
+  if(!p.length){
+    $('#quiz-note').textContent='苦手に登録された物質はまだありません。カードで「まだ」を押すか、クイズでまちがえるとここに集まります。';
+    return;
+  }
+  startQuiz(Q.count?p.slice(0,Math.min(Q.count,p.length)):p);
+}
+
+/* events */
+document.addEventListener('click',function(e){
+  var b=e.target.closest('button');
+  if(!b)return;
+  var d=b.dataset;
+  if(d.tab){location.hash=d.tab;return;}
+  if(d.seg){
+    var p=d.seg.split('.');
+    S[p[0]][p[1]]=p[1]==='count'?Number(d.val):d.val;
+    if(p[0]==='list')renderList();
+    else if(p[0]==='cards')buildDeck();
+    else renderQuiz();
+    syncSeg();return;
+  }
+  if(d.hide){
+    var k=d.hide;
+    if(L.hide.has(k)){L.hide.delete(k);}else{L.hide.add(k);}
+    Array.from(L.rev).forEach(function(x){if(x.slice(-k.length-1)===':'+k)L.rev.delete(x);});
+    renderList();syncSeg();return;
+  }
+  if(d.rev){
+    L.rev.add(d.rev);renderList();
+    var c=document.querySelector('[data-cell="'+d.rev+'"]');
+    if(c)c.focus();
+    return;
+  }
+  if(d.pick!==undefined){
+    if(Q.picked!==null)return;
+    Q.picked=Number(d.pick);
+    Q.res[Q.i].ok[Q.cur.key]=Q.cur.opts[Q.picked].v===Q.cur.correct;
+    renderQuiz();focusId('q-next');return;
+  }
+  switch(d.act){
+    case 'showall':L.hide.clear();L.rev.clear();renderList();syncSeg();break;
+    case 'reveal':C.shown=true;renderCards();focusId('c-main');break;
+    case 'known':mark(C.deck[C.i].id,true);C.known++;cardNext();break;
+    case 'again':mark(C.deck[C.i].id,false);C.again.push(C.deck[C.i].id);cardNext();break;
+    case 'cards-retry':buildDeck(shuffle(C.again));break;
+    case 'cards-restart':buildDeck();break;
+    case 'quiz-start':beginFromSetup();break;
+    case 'q-next':quizNext();break;
+    case 'q-quit':Q.phase='setup';renderQuiz();break;
+    case 'quiz-again':beginFromSetup();break;
+    case 'quiz-retry-missed':
+      startQuiz(shuffle(Q.res.filter(function(r){return Object.keys(r.ok).some(function(k){return !r.ok[k];});}).map(function(r){return r.d;})));
+      break;
+    case 'quiz-setup':Q.phase='setup';renderQuiz();break;
+  }
+});
+document.addEventListener('keydown',function(e){
+  if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;
+  var t=e.target.closest&&e.target.closest('[role="tab"]');
+  if(!t)return;
+  var i=VIEWS.indexOf(t.dataset.tab);
+  var j=(i+(e.key==='ArrowRight'?1:VIEWS.length-1))%VIEWS.length;
+  location.hash=VIEWS[j];
+  focusId('t-'+VIEWS[j]);
+});
+
+/* routing */
+function show(v){
+  VIEWS.forEach(function(x){
+    $('#p-'+x).hidden=x!==v;
+    var t=$('#t-'+x);
+    t.setAttribute('aria-selected',String(x===v));
+    t.tabIndex=x===v?0:-1;
+  });
+}
+function route(){
+  var v=(location.hash||'').slice(1);
+  show(VIEWS.indexOf(v)>=0?v:'list');
+}
+window.addEventListener('hashchange',route);
+
+/* init */
+document.querySelectorAll('[data-fm]').forEach(function(el){el.innerHTML=fm(el.dataset.fm);});
+route();renderList();buildDeck();renderQuiz();syncSeg();
+})();
+</script>
+</body>
+</html>
